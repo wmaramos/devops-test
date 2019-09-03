@@ -1,0 +1,28 @@
+---
+- name: Ensure depends is installed
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ publisher_depends }}"
+
+- name: Set up yum repository
+  yum_repository:
+    name: publisher
+    description: Publisher repository
+    baseurl: http://wmaramos-devops-test.s3-website-sa-east-1.amazonaws.com/
+    gpgcheck: 1
+
+- name: Ensure the last version from app
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - {{ publisher_pkg }}
+  notify:
+    - restart publisher
+
+- name: Enable/Start publisher service
+  systemd:
+    name: publisher
+    state: started
+    daemon_reload: yes

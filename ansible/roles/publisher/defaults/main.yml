@@ -1,0 +1,6 @@
+---
+publisher_depends:
+  - python
+publisher_repo_url: http://wmaramos-devops-test.s3-website-sa-east-1.amazonaws.com/
+publisher_pkg:
+  - publisher
